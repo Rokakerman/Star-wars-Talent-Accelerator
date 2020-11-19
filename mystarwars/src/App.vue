@@ -8,6 +8,40 @@
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+      return {
+        error: null,
+        URL: "https://swapi.dev/api/people/",
+        array: []
+    }
+  },
+  created() {
+    this.fetchData()
+  },
+  methods: {
+    async fetchData () {
+      if(!localStorage.getItem("characters")) {
+        console.log("Inside the if")
+        const response = await fetch(this.URL, {method: 'GET', headers: {'Content-Type': 'application/json'}})
+
+        this.array = await response.json()  
+        console.log(this.array.results)
+        localStorage.setItem("characters", JSON.stringify(this.array.results))
+        return 
+      }
+      let storage = localStorage.getItem("characters")
+      let list = JSON.parse(storage)
+      /*let char = list[0]
+      console.log("Outside the if " + char.name)
+      const response = await fetch(this.URL, {method: 'GET', headers: {'Content-Type': 'application/json'}})*/
+    }
+  }
+}
+
+</script>
+
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
