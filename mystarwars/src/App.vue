@@ -18,27 +18,9 @@ export default {
     }
   },
   created() {
-    this.fetchData()
+    
   },
   methods: {
-    async fetchData () {
-      if(!localStorage.getItem("characters")) {
-        console.log("Inside the if")
-        const response = await fetch(this.URL, {method: 'GET', headers: {'Content-Type': 'application/json'}})
-        let readable = await response.json()
-        this.array = readable.results
-
-        console.log(this.array)
-        localStorage.setItem("characters", JSON.stringify(this.array))
-        return 
-      }
-      let storage = localStorage.getItem("characters")
-      let list = JSON.parse(storage)
-      this.array = list.results
-      /*let char = list[0]
-      console.log("Outside the if " + char.name)
-      const response = await fetch(this.URL, {method: 'GET', headers: {'Content-Type': 'application/json'}})*/
-    }
   }
 }
 
