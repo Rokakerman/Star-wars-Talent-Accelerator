@@ -1,8 +1,12 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <header> <img class="triangle"> </header>
+    <main>
     <button @click="filterMe">  filter </button>
+    </main>
+    <footer>
     <CharacterList :parentList="array"/>
+    </footer>
   </div>
 </template>
 
@@ -54,3 +58,23 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+header {
+  height: 50vh;
+}
+.triangle {
+clip-path: polygon(100% 0, 0 50%, 100% 100%);
+background-color: red;
+height: 100%;
+width: 100%;
+}
+
+main {
+  height: 10vh;
+}
+
+footer {
+  height: 40vh;
+}
+</style>
