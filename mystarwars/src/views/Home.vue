@@ -1,6 +1,9 @@
 <template>
   <div class="home">
-    <header> <img class="triangle"> </header>
+    <div class="x"> </div>
+    <div class="triangle"> </div>
+    <div class="y"> </div>
+    <header>  </header>
     <main>
     <button @click="filterMe">  filter </button>
     </main>
@@ -13,6 +16,7 @@
 <script>
 // @ is an alias to /src
 import CharacterList from '@/components/CharacterList.vue'
+import Jedis from '@/assets/jedis.jpg'
 
 export default {
   name: 'Home',
@@ -21,7 +25,8 @@ export default {
     return {
       error: null,
       URL: "https://swapi.dev/api/people/",
-      array: []
+      array: [],
+      image: { backgroundImage: "url(@/assets/)" }
     }
   },
   created() {
@@ -62,19 +67,57 @@ export default {
 <style scoped>
 header {
   height: 50vh;
+  background: transparent;
 }
 .triangle {
 clip-path: polygon(100% 0, 0 50%, 100% 100%);
 background-color: red;
-height: 100%;
+background-image: url('~@/assets/5.jpg');
+height: 70%;
 width: 100%;
+z-index: -1;
+position: fixed;
+background-size: cover;
+background-repeat: no-repeat;
+border: solid white 10px
+}
+
+.x {
+  clip-path: polygon(100% 0, 0 0, 0 100%);
+  background-color: green;
+  background-image: url('~@/assets/mellan.jpg');
+  height: 35%;
+  width: 100%;
+  z-index: -1;
+  position: fixed;
+  background-size: cover;
+background-repeat: no-repeat;
+border: solid white 10px
+}
+
+.y {
+  clip-path: polygon(0 1%, 100% 54%, 100% 100%, 0% 100%);
+  background-color: yellow;
+  background-image: url('~@/assets/warpspeed.jpg');
+  background-position: center;
+  height: 66%;
+  width: 100%;
+  z-index: -1;
+  position: fixed;
+  bottom: 0rem;
+  background-size: cover;
+  background-repeat: none;
+  border: solid white 10px;
+  border-bottom: 0px;
 }
 
 main {
   height: 10vh;
+  background: transparent
 }
 
 footer {
   height: 40vh;
+  background: transparent
 }
 </style>
