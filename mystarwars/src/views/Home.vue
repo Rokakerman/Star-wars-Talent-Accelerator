@@ -5,7 +5,7 @@
     <div class="y"> </div>
     <header>  </header>
     <main>
-    <button @click="filterMe">  filter </button>
+      <Search/>
     </main>
     <footer>
     <CharacterList :parentList="array"/>
@@ -17,10 +17,11 @@
 // @ is an alias to /src
 import CharacterList from '@/components/CharacterList.vue'
 import Jedis from '@/assets/jedis.jpg'
+import Search from '@/components/Search.vue'
 
 export default {
   name: 'Home',
-  components: { CharacterList },
+  components: { CharacterList, Search },
   data() {
     return {
       error: null,
