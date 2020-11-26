@@ -57,7 +57,14 @@ export default {
       const response = await fetch(this.URL, {method: 'GET', headers: {'Content-Type': 'application/json'}})*/
     },
     filterMe() {
-      let criteria = " o";
+      //let criteria = this.;
+      let results = this.array.filter(el => {
+        // This filters out the firstname and returns any matched with the critera
+        const [firstname, lastname] = el.name.toLowerCase().split('');
+        return firstname.includes(criteria.toLowerCase());
+      })    
+      
+
       let results = this.array.filter(el => el.name.toLowerCase().includes(criteria.toLowerCase()))
       console.log(results)
     }
