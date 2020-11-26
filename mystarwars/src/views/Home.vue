@@ -8,7 +8,10 @@
       <Search/>
     </main>
     <footer>
-    <CharacterList :parentList="array"/>
+    <CharacterList 
+      :parentList="array"
+      v-on:loadMore="nextPage"
+    />
     </footer>
   </div>
 </template>
@@ -26,6 +29,7 @@ export default {
     return {
       error: null,
       URL: "https://swapi.dev/api/people/",
+      page: 0,
       array: [],
       image: { backgroundImage: "url(@/assets/)" }
     }
@@ -36,7 +40,7 @@ export default {
   },
   methods: {
     async fetchData () {
-      if(!sessionStorage.getItem("characters")) {
+      /*if(!sessionStorage.getItem("characters")) {
         console.log("Inside the if")
         const response = await fetch(this.URL, {method: 'GET', headers: {'Content-Type': 'application/json'}})
         let readable = await response.json()
@@ -46,12 +50,15 @@ export default {
         sessionStorage.setItem("characters", JSON.stringify(this.array))
         return 
       }
-      console.log("outside the if")
+      //console.log("outside the if")
       let storage = sessionStorage.getItem("characters")
-      let readable = JSON.parse(storage)
+      let readable = JSON.parse(storage)*/
 
-      this.array = readable
-      return
+      const response = await fetch(this.URL, {method: 'GET', headers: {'Content-Type': 'application/json'}})
+      let readable = await response.json()
+      this.array = readable.results
+
+      return this.page = 1
       /*let char = list[0]
       console.log("Outside the if " + char.name)
       const response = await fetch(this.URL, {method: 'GET', headers: {'Content-Type': 'application/json'}})*/
@@ -60,6 +67,24 @@ export default {
       let criteria = " o";
       let results = this.array.filter(el => el.name.toLowerCase().includes(criteria.toLowerCase()))
       console.log(results)
+    },
+    async nextPage() {
+      console.log("Nextpage method called")
+      const URL = 'https://swapi.dev/api/people/?page='
+      let pageNr = this.page + 1
+      this.page = pageNr
+      console.log(pageNr)
+      if(pageNr === 10) {
+        //throw new TypeError('There is more content to load')
+        return console.log('There are no more pages to load')
+      }
+
+      const response = await fetch(URL + pageNr, {method: 'GET', headers: {'Content-Type': 'application/json'}})
+      let readable = await response.json()
+      readable.results.forEach(element => {
+        this.array.push(element)
+      });
+      return 
     }
   }
 }
