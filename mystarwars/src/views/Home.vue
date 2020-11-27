@@ -71,9 +71,6 @@ export default {
         return firstname.includes(criteria.toLowerCase());
       })    
       
-
-      let results = this.array.filter(el => el.name.toLowerCase().includes(criteria.toLowerCase()))
-      console.log(results)
     },
     async nextPage() {
       console.log("Nextpage method called")
