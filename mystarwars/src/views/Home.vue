@@ -5,7 +5,9 @@
     <div class="y"> </div>
     <header>  </header>
     <main>
-      <Search/>
+      <Search
+        v-on:filter="filtered"
+      />
     </main>
     <footer>
     <CharacterList 
@@ -29,7 +31,7 @@ export default {
     return {
       error: null,
       URL: "https://swapi.dev/api/people/",
-      page: 0,
+      next: '',
       array: [],
       image: { backgroundImage: "url(@/assets/)" }
     }
@@ -58,7 +60,7 @@ export default {
       let readable = await response.json()
       this.array = readable.results
 
-      return this.page = 1
+      return this.next = readable.next
       /*let char = list[0]
       console.log("Outside the if " + char.name)
       const response = await fetch(this.URL, {method: 'GET', headers: {'Content-Type': 'application/json'}})*/
@@ -74,21 +76,22 @@ export default {
     },
     async nextPage() {
       console.log("Nextpage method called")
-      const URL = 'https://swapi.dev/api/people/?page='
-      let pageNr = this.page + 1
-      this.page = pageNr
-      console.log(pageNr)
-      if(pageNr === 10) {
+      if(this.next == null) {
         //throw new TypeError('There is more content to load')
         return console.log('There are no more pages to load')
       }
 
-      const response = await fetch(URL + pageNr, {method: 'GET', headers: {'Content-Type': 'application/json'}})
+      const response = await fetch(this.next, {method: 'GET', headers: {'Content-Type': 'application/json'}})
       let readable = await response.json()
-      readable.results.forEach(element => {
-        this.array.push(element)
-      });
-      return 
+      let newArray = this.array.concat(readable.results)
+      console.log(newArray)
+      this.array = this.array.concat(readable.results)
+      return this.next = readable.next
+    },
+    filtered(filteredList) {
+      console.log(filteredList)
+      this.next = null
+      return this.array = filteredList
     }
   }
 }

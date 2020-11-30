@@ -5,6 +5,7 @@
               <p> {{ item.name }} </p>
           </li>
       </ul>
+      <button class="load" @click="loadMore"> </button>
   </div>
 </template>
 
@@ -20,15 +21,15 @@ export default {
     },
     methods: {
         handleScroll: function(event) {
-            if((event.target.offsetHeight + event.target.scrollTop) >= event.target.scrollHeight) {
+            /*if((event.target.offsetHeight + event.target.scrollTop) >= event.target.scrollHeight) {
                 this.hasScrolledToBottom = true
                 return this.$emit("loadMore")
             } else {
                 this.hasScrolledToBottom = false
-            }
+            }*/
         },
         loadMore() {
-            //when the ul scroll is at the bottom load page 2 of results
+            return this.$emit("loadMore")
         }
     }
 }
@@ -50,4 +51,11 @@ ul
     padding: 0px
     border: 2px solid white
     width: 50%
+
+.load
+    margin: 0px
+    padding: 0px
+    height: 1rem
+    width: 3rem
+    
 </style>

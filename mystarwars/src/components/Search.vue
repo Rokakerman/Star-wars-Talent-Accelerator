@@ -2,8 +2,8 @@
     <div>
         <button @click="filterMe">  filter </button>
         <input type="text" v-model="param">
-        <button @click="firstName = true"> First Name </button>
-        <button @click="firstName = false"> Last Name </button>
+        <button @click="firstNameFilter"> First Name </button>
+        <button @click="lastNameFilter"> Last Name </button>
     </div>
 </template>
 
@@ -16,65 +16,96 @@ export default {
             URL: 'https://swapi.dev/api/people/?search=',
             param: '',
             firstName: false,
+            lastName: false,
             nextUrl: ''
         }
     },
     methods: {
         async filterMe() {
-            /*const response = await fetch(this.URL + this.param , {method: 'GET', headers: {'Content-Type': 'application/json'}})
-            let readable = await response.json()
-            let people = readable.results
-            let firstName = await people.filter(el => el.name.split(' ').slice(0, -1).join(' '))
-            console.log(firstName)
-            this.array = readable*/
-            let y = 1
-            let page = 1
+            /* 
+                This function sends a fetch request with the user param
+                and retrieves all object's who's name property matched the given param.
+                Since the API uses pagination this function also checks if there is a next 
+                pagination link availible and executes code acordingly, then fires whatever
+                optional and additional filter the user chose with the search
+            */
 
             const response = await fetch(this.URL + this.param, {method: 'GET', headers: {'Content-Type': 'application/json'}})
             let readable = await response.json()
             this.nextUrl = readable.next
             let firstMatch = readable.results
             console.log(firstMatch)
+            // This is the list of the raw fetch results, hence the name of the variable
             this.firstMatchArray = firstMatch
             
-            for(let x = 0; x < y; x++ ) {
-                if(!this.nextUrl) {
-                    //Do the regular case here
-                    console.log("If its empty")
+            if(!this.nextUrl) {
+                //Do the regular case here
+                console.log("If its empty")
 
-                } else {
-                    console.log("If its not empty")
-                    const response = await fetch(this.nextUrl, {method: 'GET', headers: {'Content-Type': 'application/json'}})
-                    let readable = await response.json()
-                    this.nextUrl = readable.next
-                    let newArray = this.firstMatchArray.concat(readable.results)
-                    this.firstMatchArray = newArray
-                    y++
-                }
+            } else {
+                console.log("If its not empty")
+                const response = await fetch(this.nextUrl, {method: 'GET', headers: {'Content-Type': 'application/json'}})
+                let readable = await response.json()
+                this.nextUrl = readable.next
+                let newArray = this.firstMatchArray.concat(readable.results)
+                this.firstMatchArray = newArray
+                    
             }
             
-
-            /*let firstName = fullName.split(' ').slice(0, -1).join(' ');
-            let lastName = fullName.split(' ').slice(-1).join(' ');*/
-
-       
-            return this.firsNames()
-            //let criteria = " o";
-            //let results = this.array.filter(el => el.name.toLowerCase().includes(criteria.toLowerCase()))
-            //console.log(results)
+            return this.checkFilter()
         },
-        async firsNames() {
+        firstNameFilter() {
+            this.firstName = !this.firstName
+            return this.lastName = false
+        },
+        lastNameFilter() {
+            this.lastName = !this.lastName
+            return this.firstName = false
+        },
+        checkFilter() {
+            if (this.firstName === true) {
+                // Do this
+                return this.getFirstNames
+            } else if (this.lastName === true) {
+                // Do this
+                return this.getLastNames
+            }
+            return this.invoke()
+        },
+        async getFirstNames() {
             console.log('Your in firstName function now')
             let criteria = this.param
             let filteredList = this.firstMatchArray.filter(el => {
                 const [firstname, lastname] = el.name.toLowerCase().split(' ')
                 return firstname.includes(criteria.toLowerCase())
             });
-            for(let x = 0; x < filteredList.length; x++) {
-                console.log(filteredList[x].name)
+            filteredList.forEach(element => console.log(element.name))
+            let sortedList = filteredList.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }))
+            console.log(await sortedList, filteredList)
+            this.filteredArray = sortedList
+
+            return this.invoke()
+        },
+        async getLastNames() {
+            console.log('Your in lasttName function now')
+            let criteria = this.param
+            let filteredList = this.firstMatchArray.filter(el => {
+                const [firstname, lastname] = el.name.toLowerCase().split(' ')
+                return lastname.includes(criteria.toLowerCase())
+            });
+            filteredList.forEach(element => console.log(element.name))
+            let sortedList = filteredList.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }))
+            console.log(await sortedList, filteredList)
+            this.filteredArray = sortedList
+
+            return this.invoke()
+        },
+        invoke() {
+            if (this.filteredArray.length > 0) {
+                return this.$emit("filter", this.filteredArray)
+            } else {
+                return this.$emit("filter", this.firstMatchArray)
             }
-            let sortedList = filteredList.sort()
-            console.log(await sortedList)
         }
     },
     computed: {
