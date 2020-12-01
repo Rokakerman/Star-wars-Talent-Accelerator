@@ -55,21 +55,27 @@ export default {
             return this.checkFilter()
         },
         firstNameFilter() {
+            // Firstname filter toggle
             this.firstName = !this.firstName
             return this.lastName = false
         },
         lastNameFilter() {
+            // Lastname filter toggle
             this.lastName = !this.lastName
             return this.firstName = false
         },
         checkFilter() {
+            // This function checks if any of the filters have been selected
             if (this.firstName === true) {
                 // Do this
-                return this.getFirstNames
+                console.log("in the if")
+                return this.getFirstNames()
             } else if (this.lastName === true) {
-                // Do this
-                return this.getLastNames
+                // Do this 
+                console.log("in the else")
+                return this.getLastNames()
             }
+            console.log('invoking')
             return this.invoke()
         },
         async getFirstNames() {
@@ -91,6 +97,9 @@ export default {
             let criteria = this.param
             let filteredList = this.firstMatchArray.filter(el => {
                 const [firstname, lastname] = el.name.toLowerCase().split(' ')
+                if (lastname == undefined) {
+                    console.log("Wadap")
+                }
                 return lastname.includes(criteria.toLowerCase())
             });
             filteredList.forEach(element => console.log(element.name))
