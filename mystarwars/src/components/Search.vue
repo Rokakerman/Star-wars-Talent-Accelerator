@@ -34,23 +34,35 @@ export default {
             let readable = await response.json()
             this.nextUrl = readable.next
             let firstMatch = readable.results
-            console.log(firstMatch)
+            let y = 1
+
+            for(let x = 0; x < y; x++) {
+                if(!this.nextUrl) {
+                    console.log('There are no pages left')
+                } else {
+                    const newResponse = await fetch(this.nextUrl, {method: 'GET', headers: {'Content-Type': 'application/json'}})
+                    let newReadable = await newResponse.json()
+                    this.nextUrl = newReadable.next
+                    firstMatch = firstMatch.concat(newReadable.results)
+                    y++
+                }
+            }
             // This is the list of the raw fetch results, hence the name of the variable
             this.firstMatchArray = firstMatch
             
-            if(!this.nextUrl) {
+            /*if(!this.nextUrl) {
                 //Do the regular case here
                 console.log("If its empty")
 
             } else {
                 console.log("If its not empty")
                 const response = await fetch(this.nextUrl, {method: 'GET', headers: {'Content-Type': 'application/json'}})
-                let readable = await response.json()
-                this.nextUrl = readable.next
+                let newReadable = await response.json()
+                this.nextUrl = newReadable.next
                 let newArray = this.firstMatchArray.concat(readable.results)
                 this.firstMatchArray = newArray
                     
-            }
+            }*/
             
             return this.checkFilter()
         },
@@ -85,9 +97,9 @@ export default {
                 const [firstname, lastname] = el.name.toLowerCase().split(' ')
                 return firstname.includes(criteria.toLowerCase())
             });
-            filteredList.forEach(element => console.log(element.name))
+            
             let sortedList = filteredList.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }))
-            console.log(await sortedList, filteredList)
+            filteredList.forEach(el => console.log(el.name))
             this.filteredArray = sortedList
 
             return this.invoke()
@@ -96,24 +108,28 @@ export default {
             console.log('Your in lasttName function now')
             let criteria = this.param
             let filteredList = this.firstMatchArray.filter(el => {
-                const [firstname, lastname] = el.name.toLowerCase().split(' ')
-                if (lastname == undefined) {
-                    console.log("Wadap")
-                }
-                return lastname.includes(criteria.toLowerCase())
+                let index = el.name.lastIndexOf(' ')
+               
+                console.log(index)
+                //const [firstname, lastname] = el.name.toLowerCase().split(index)
+                return el.name.slice(index).includes(criteria.toLowerCase())
+
             });
             filteredList.forEach(element => console.log(element.name))
             let sortedList = filteredList.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }))
-            console.log(await sortedList, filteredList)
+            filteredList.forEach(el => console.log(el.name))
+            sortedList.forEach(el => console.log(el.name))
             this.filteredArray = sortedList
 
             return this.invoke()
         },
         invoke() {
-            if (this.filteredArray.length > 0) {
-                return this.$emit("filter", this.filteredArray)
+            if (this.lastName == false && this.firstName == false) {
+                let sortedList = this.firstMatchArray.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }))
+                sortedList.forEach(el => console.log(el.name))
+                return this.$emit("filter", sortedList)
             } else {
-                return this.$emit("filter", this.firstMatchArray)
+                return this.$emit("filter", this.filteredArray)
             }
         }
     },
