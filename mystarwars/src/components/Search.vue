@@ -110,8 +110,8 @@ export default {
             let filteredList = this.firstMatchArray.filter(el => {
                 let index = el.name.lastIndexOf(' ')
                
-                console.log(index)
-                //const [firstname, lastname] = el.name.toLowerCase().split(index)
+                console.log(el.name.slice(0))
+                //const [firstname, lastname] = el.name.toLowerCase().split(index)  
                 return el.name.slice(index).includes(criteria.toLowerCase())
 
             });
