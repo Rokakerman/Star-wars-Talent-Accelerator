@@ -1,9 +1,15 @@
 <template>
-    <div>
-        <button @click="filterMe">  filter </button>
-        <input type="text" v-model="param">
-        <button @click="firstNameFilter"> First Name </button>
-        <button @click="lastNameFilter"> Last Name </button>
+    <div class="search-container">
+        <div class="input-row">
+            <div class="search-button-container">
+                <!--<button class="search-button" @click="filterMe">  filter </button> -->
+            </div>
+            <input class="input-field" type="text" v-model="param">
+        </div>
+        <div class="filter-row">
+            <button class="filter" @click="firstNameFilter"> <h3> First Name </h3> </button>
+            <button class="filter" @click="lastNameFilter"> <h3> Last Name </h3> </button>
+        </div>
     </div>
 </template>
 
@@ -105,20 +111,22 @@ export default {
             return this.invoke()
         },
         async getLastNames() {
+            this.firstMatchArray.forEach(el => console.log(el.name))
             console.log('Your in lasttName function now')
             let criteria = this.param
             let filteredList = this.firstMatchArray.filter(el => {
                 let index = el.name.lastIndexOf(' ')
-               
-                console.log(el.name.slice(0))
+
+                if (index == -1) {
+                    index = 0
+                }
                 //const [firstname, lastname] = el.name.toLowerCase().split(index)  
-                return el.name.slice(index).includes(criteria.toLowerCase())
+                return el.name.toLowerCase().slice(index).includes(criteria.toLowerCase())
 
             });
             filteredList.forEach(element => console.log(element.name))
             let sortedList = filteredList.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }))
-            filteredList.forEach(el => console.log(el.name))
-            sortedList.forEach(el => console.log(el.name))
+            //sortedList.forEach(el => console.log(el.name))
             this.filteredArray = sortedList
 
             return this.invoke()
@@ -150,6 +158,60 @@ export default {
 }
 </script>
 
-<style>
+<style lang="sass" scoped>
+.search-container
+    display: flex
+    flex-direction: column
+    margin: 0px
+    padding: 0px
+    width: 80%
+    height: 100%
+    justify-content: space-around
+    align-items: center
 
+
+.input-row
+    width: 100%
+    display: flex
+    justify-content: center
+    
+.search-button-container
+    border: 2px solid yellow
+    border-top: 0px
+    border-left: 0px
+    border-right: 0px
+    background-image: url('~@/assets/search.svg')
+    width: 3rem
+    background-repeat: no-repeat
+    background-position: center
+
+.input-field
+    border: yellow 2px solid
+    background: none
+    border-top: 0px
+    border-right: 0px
+    color: white
+    font-weight: bold
+    font-size: 18px
+    width: 20rem
+    height: 2rem
+
+.filter-row
+    width: 100%
+    display: flex
+    justify-content: space-around
+
+.filter
+    color: yellow
+    background-color: black
+    border: yellow 1px solid
+    height: 2rem
+    width: 8rem 
+    font-weight: bolder
+    font-size: 15px
+    border-radius: 5px
+
+h3
+    margin: 0px
+    padding: 0px
 </style>

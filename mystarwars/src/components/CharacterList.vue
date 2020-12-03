@@ -42,6 +42,7 @@ export default {
     flex-direction: column
     justify-content: center
     align-items: center
+    width: 80%
 
 ul 
     overflow: auto
@@ -50,7 +51,7 @@ ul
     margin: 0px
     padding: 0px
     border: 2px solid white
-    width: 50%
+    width: 100%
 
 .load
     margin: 0px

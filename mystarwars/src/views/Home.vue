@@ -97,60 +97,72 @@ export default {
 }
 </script>
 
-<style scoped>
-header {
-  height: 50vh;
-  background: transparent;
-}
-.triangle {
-clip-path: polygon(100% 0, 0 50%, 100% 100%);
-background-color: red;
-background-image: url('~@/assets/5.jpg');
-height: 70%;
-width: 100%;
-z-index: -1;
-position: fixed;
-background-size: cover;
-background-repeat: no-repeat;
-border: solid white 10px
-}
+<style lang="sass" scoped>
+.home 
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
 
-.x {
-  clip-path: polygon(100% 0, 0 0, 0 100%);
-  background-color: green;
-  background-image: url('~@/assets/mellan.jpg');
-  height: 35%;
-  width: 100%;
-  z-index: -1;
-  position: fixed;
-  background-size: cover;
-background-repeat: no-repeat;
-border: solid white 10px
-}
-
-.y {
-  clip-path: polygon(0 1%, 100% 54%, 100% 100%, 0% 100%);
-  background-color: yellow;
-  background-image: url('~@/assets/warpspeed.jpg');
-  background-position: center;
-  height: 66%;
-  width: 100%;
-  z-index: -1;
-  position: fixed;
-  bottom: 0rem;
-  background-size: cover;
-  background-repeat: none;
-  border: solid white 10px;
-  border-bottom: 0px;
-}
-
-main {
-  height: 10vh;
+header 
+  height: 45vh
   background: transparent
-}
 
-footer {
-  height: 40vh;
+.triangle 
+  clip-path: polygon(100% 0, 0 50%, 100% 100%)
+  background-color: red
+  background-image: url('~@/assets/5.jpg')
+  height: 70%
+  width: 100%
+  z-index: -1
+  position: fixed
+  background-size: cover
+  background-repeat: no-repeat
+  border: solid white 10px
+  top: 0px
+
+.x 
+  clip-path: polygon(100% 0, 0 0, 0 100%)
+  background-color: green
+  background-image: url('~@/assets/mellan.jpg')
+  height: 35%
+  width: 100%
+  z-index: -1
+  position: fixed
+  background-size: cover
+  background-repeat: no-repeat
+  border: solid white 10px
+  top: 0px
+
+.y 
+  clip-path: polygon(0 1%, 100% 54%, 100% 100%, 0% 100%)
+  background-color: yellow
+  background-image: url('~@/assets/warpspeed.jpg')
+  background-position: center
+  height: 66%
+  width: 100%
+  z-index: -1
+  position: fixed
+  bottom: 0rem
+  background-size: cover
+  background-repeat: none
+  border: solid white 10px
+  border-bottom: 0px
+
+main 
+  height: 10vh
   background: transparent
-}
+  width: 100vw
+  display: flex
+  justify-content: center
+  align-items: center
+
+footer 
+  height: 45vh
+  background: transparent
+  width: 100vw
+  display: flex
+  justify-content: center
+  align-items: center
+
 </style>
