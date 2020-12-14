@@ -1,14 +1,14 @@
 <template>
     <div class="search-container">
         <div class="input-row">
-            <div class="search-button-container">
+            <div class="search-button-container" @click="filterMe">
                 <!--<button class="search-button" @click="filterMe">  filter </button> -->
             </div>
             <input class="input-field" type="text" v-model="param">
         </div>
         <div class="filter-row">
-            <button class="filter" @click="firstNameFilter"> <h3> First Name </h3> </button>
-            <button class="filter" @click="lastNameFilter"> <h3> Last Name </h3> </button>
+            <button @click="firstNameFilter" v-bind:class="{ 'active': firstName, 'filter': !firstName }"> <h3> First Name </h3> </button>
+            <button @click="lastNameFilter" v-bind:class="{ 'active': lastName, 'filter': !lastName }"> <h3> Last Name </h3> </button>
         </div>
     </div>
 </template>
@@ -159,16 +159,26 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.active
+    color: black
+    border: yellow 1px solid
+    height: 2rem
+    width: 45%
+    font-weight: bolder
+    font-size: 15px
+    border-radius: 3px
+    background-color: yellow
+
 .search-container
     display: flex
     flex-direction: column
     margin: 0px
     padding: 0px
     width: 80%
+    max-width: 25rem
     height: 100%
     justify-content: space-around
     align-items: center
-
 
 .input-row
     width: 100%
@@ -181,7 +191,7 @@ export default {
     border-left: 0px
     border-right: 0px
     background-image: url('~@/assets/search.svg')
-    width: 3rem
+    width: 15%
     background-repeat: no-repeat
     background-position: center
 
@@ -193,23 +203,24 @@ export default {
     color: white
     font-weight: bold
     font-size: 18px
-    width: 20rem
+    width: 85%
     height: 2rem
 
 .filter-row
     width: 100%
+    max-width: 30rem    
     display: flex
-    justify-content: space-around
+    justify-content: space-between
 
 .filter
     color: yellow
     background-color: black
     border: yellow 1px solid
-    height: 2rem
-    width: 8rem 
+    height: 2.5rem
+    width: 45%
     font-weight: bolder
     font-size: 15px
-    border-radius: 5px
+    border-radius: 3px
 
 h3
     margin: 0px
