@@ -162,7 +162,7 @@ export default {
 .active
     color: black
     border: yellow 1px solid
-    height: 2rem
+    height: 2.5rem
     width: 45%
     font-weight: bolder
     font-size: 15px
