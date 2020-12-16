@@ -3,7 +3,23 @@
     <div class="x"> </div>
     <div class="triangle"> </div>
     <div class="y"> </div>
-    <header>  </header>
+    <header class="home-header">  
+      <article class="preview-container" v-if="showObjectPreview">
+          <header>
+              <h2> <!-- Name of character --> {{ objectInPreview.name }} </h2>
+              <h4> <!-- Name of homeworld --> {{ getHomeWorld }} </h4>
+          </header>
+          <main>
+
+          </main>
+          <footer>
+              <h3> Films </h3>
+              <ul>
+                  <li></li>
+              </ul>
+          </footer>
+      </article>
+    </header>
     <main>
       <Search
         v-on:filter="filtered"
@@ -13,6 +29,7 @@
     <CharacterList 
       :parentList="array"
       v-on:loadMore="nextPage"
+      v-on:previewToggled="showPreview"
     />
     </footer>
   </div>
@@ -33,8 +50,26 @@ export default {
       URL: "https://swapi.dev/api/people/",
       next: '',
       array: [],
-      image: { backgroundImage: "url(@/assets/)" }
+      image: { backgroundImage: "url(@/assets/)" },
+      showObjectPreview: false,
+      objectInPreview: '',
+      objectHomeWorld: '',
+      objectFilms: ''
     }
+  },
+  computed: {
+    /*async getHomeWorld() {
+      if (!this.objectInPreview) {
+        return 
+      } else {
+        const URL = this.objectInPreview.homeworld
+        const response = await fetch(URL, {method: 'GET', headers: {'Content-Type': 'application/json'}})
+        let readable = await response.json()
+        console.log(readable.name)
+        let name = readable.name
+      }
+      return name
+    }*/
   },
   created() {
     this.fetchData()
@@ -92,6 +127,20 @@ export default {
       console.log(filteredList)
       this.next = null
       return this.array = filteredList
+    },
+    async showPreview(param) {
+      this.objectInPreview = param
+      this.showObjectPreview = true
+      console.log(param)
+      return
+    },
+    async getHomeWorld() {
+      const URL = this.objectInPreview.homeworld
+      const response = await fetch(URL, {method: 'GET', headers: {'Content-Type': 'application/json'}})
+      let readable = await response.json()
+      console.log(readable.name)
+      let name = readable.name
+      return this.objectHomeWorld = name
     }
   }
 }
@@ -149,6 +198,11 @@ header
   border: solid white 10px
   border-bottom: 0px
 
+.home-header
+  display: flex
+  justify-content: center
+  align-items: center
+
 main 
   height: 10vh
   background: transparent
@@ -157,10 +211,16 @@ main
   justify-content: center
   align-items: center
 
+.preview-container
+    border: 1px solid green
+    width: 90%
+    height: 90%
+  
+
 footer 
   height: 45vh
   background: transparent
-  width: 100vw
+  width: 90%
   display: flex
   justify-content: center
   align-items: center
