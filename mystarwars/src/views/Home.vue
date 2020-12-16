@@ -5,14 +5,14 @@
     <div class="y"> </div>
     <header class="home-header">  
       <article class="preview-container" v-if="showObjectPreview">
-          <header>
+          <header class="preview-header">
               <h2> <!-- Name of character --> {{ objectInPreview.name }} </h2>
-              <h4> <!-- Name of homeworld --> {{ getHomeWorld }} </h4>
+              <h4> <!-- Name of homeworld --> {{ objectHomeWorld }} </h4>
           </header>
-          <main>
+          <main class="preview-main">
 
           </main>
-          <footer>
+          <footer class="preview-footer">
               <h3> Films </h3>
               <ul>
                   <li></li>
@@ -20,12 +20,12 @@
           </footer>
       </article>
     </header>
-    <main>
+    <main class="home-main">
       <Search
         v-on:filter="filtered"
       />
     </main>
-    <footer>
+    <footer class="home-footer">
     <CharacterList 
       :parentList="array"
       v-on:loadMore="nextPage"
@@ -130,6 +130,7 @@ export default {
     },
     async showPreview(param) {
       this.objectInPreview = param
+      await this.getHomeWorld()
       this.showObjectPreview = true
       console.log(param)
       return
@@ -152,10 +153,6 @@ export default {
   flex-direction: column
   justify-content: center
   align-items: center
-
-header 
-  height: 45vh
-  background: transparent
 
 .triangle 
   clip-path: polygon(100% 0, 0 50%, 100% 100%)
@@ -202,8 +199,11 @@ header
   display: flex
   justify-content: center
   align-items: center
+  height: 45vh
+  background: transparent
+  width: 100%
 
-main 
+.home-main 
   height: 10vh
   background: transparent
   width: 100vw
@@ -215,9 +215,22 @@ main
     border: 1px solid green
     width: 90%
     height: 90%
+    background-color: white
   
+.preview-header
+    height: 20%
+    display: flex
+    flex-direction: column
+    justify-content: safe
+    align-items: flex-start
 
-footer 
+.preview-main
+  height: 50%
+
+.preview-footer
+  height: 30%
+
+.home-footer 
   height: 45vh
   background: transparent
   width: 90%
